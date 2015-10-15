@@ -8,6 +8,7 @@ package ViewEdit;
 import vista.*;
 import Control.ControlProducto;
 import Control.ControlProveedor;
+import Entidad.EntidadMiembros;
 import Entidad.EntidadProducto;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,7 +52,7 @@ public class VistaMiembros extends javax.swing.JFrame {
         }
     }
 
-    private void cargarProductoTabla() {
+    private void cargarMiembrosTabla() {
         limpiarTabla();
         try {
 
@@ -103,14 +104,12 @@ public class VistaMiembros extends javax.swing.JFrame {
                 while (rs.next()) {
                     Prov = rs.getString(1);
 
-                    
-
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(VistaMiembros.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            this.cargarProductoTabla();
+            this.cargarMiembrosTabla();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -136,15 +135,15 @@ public class VistaMiembros extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtClave = new javax.swing.JTextField();
-        txtPrecio = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         txtNombre = new javax.swing.JTextField();
+        txtTel2 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        txtAPaterno = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtPrecio1 = new javax.swing.JTextField();
-        txtPrecio3 = new javax.swing.JTextField();
-        txtPrecio4 = new javax.swing.JTextField();
+        txtAMaterno = new javax.swing.JTextField();
+        txtTel1 = new javax.swing.JTextField();
+        txtCorreo = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         txtNombre2 = new javax.swing.JTextField();
@@ -242,24 +241,27 @@ public class VistaMiembros extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 0, 255));
         jLabel4.setText("TELEFONO 1:");
 
-        txtClave.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        txtClave.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtClave.setToolTipText("NOMBRE DEL NUEVO MIEMBRO*OBLIGATORIO");
-        txtClave.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                toUpper(evt);
-            }
-        });
-
-        txtPrecio.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        txtPrecio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPrecio.setToolTipText("TELEFONO DEL MIEMBRO ");
-        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtNombre.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        txtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtNombre.setToolTipText("NOMBRE DEL NUEVO MIEMBRO*OBLIGATORIO");
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 toUpper(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtPrecioKeyTyped(evt);
+                txtNombreKeyTyped(evt);
+            }
+        });
+
+        txtTel2.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        txtTel2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtTel2.setToolTipText("TELEFONO DEL MIEMBRO ");
+        txtTel2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                toUpper(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTel2KeyTyped(evt);
             }
         });
 
@@ -271,15 +273,15 @@ public class VistaMiembros extends javax.swing.JFrame {
             }
         });
 
-        txtNombre.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        txtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtNombre.setToolTipText("APELLIDO PATERNO DEL MIEMBRO*OBLIGSTORIO");
-        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtAPaterno.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        txtAPaterno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtAPaterno.setToolTipText("APELLIDO PATERNO DEL MIEMBRO*OBLIGSTORIO");
+        txtAPaterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtNombretoUpper(evt);
+                txtAPaternotoUpper(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNombreKeyTyped(evt);
+                txtAPaternoKeyTyped(evt);
             }
         });
 
@@ -291,44 +293,37 @@ public class VistaMiembros extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(0, 0, 255));
         jLabel6.setText("CORREO:");
 
-        txtPrecio1.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        txtPrecio1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPrecio1.setToolTipText("APELLIDO MATERNO DEL MIEMBRO");
-        txtPrecio1.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtAMaterno.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        txtAMaterno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtAMaterno.setToolTipText("APELLIDO MATERNO DEL MIEMBRO");
+        txtAMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtPrecio1toUpper(evt);
+                txtAMaternotoUpper(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtPrecio1KeyTyped(evt);
+                txtAMaternoKeyTyped(evt);
             }
         });
 
-        txtPrecio3.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        txtPrecio3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPrecio3.setToolTipText("TELEFONO DEL MIEMBRO");
-        txtPrecio3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPrecio3ActionPerformed(evt);
-            }
-        });
-        txtPrecio3.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtTel1.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        txtTel1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtTel1.setToolTipText("TELEFONO DEL MIEMBRO");
+        txtTel1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtTel1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtPrecio3toUpper(evt);
+                txtTel1toUpper(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtPrecio3KeyTyped(evt);
+                txtTel1KeyTyped(evt);
             }
         });
 
-        txtPrecio4.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        txtPrecio4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPrecio4.setToolTipText("CORREO DEL MIEMBRO");
-        txtPrecio4.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtCorreo.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        txtCorreo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtCorreo.setToolTipText("CORREO DEL MIEMBRO");
+        txtCorreo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtPrecio4toUpper(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtPrecio4KeyTyped(evt);
+                txtCorreotoUpper(evt);
             }
         });
 
@@ -337,67 +332,66 @@ public class VistaMiembros extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(128, 128, 128)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(190, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
+                        .addGap(45, 45, 45)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNombre)
+                            .addComponent(txtAPaterno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtClave)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(44, 44, 44)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPrecio1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPrecio3, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPrecio4, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(128, 128, 128)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                            .addComponent(txtTel2, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtAMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTel1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(59, 59, 59))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(76, 76, 76)
+                .addGap(40, 40, 40)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtAPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtPrecio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtAMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtPrecio3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(txtPrecio4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43))
         );
 
-        jTabbedPane1.addTab("Agregar nuevo producto", jPanel2);
+        jTabbedPane1.addTab("Agregar nuevo miembro", jPanel2);
 
         jLabel8.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 255));
@@ -645,20 +639,30 @@ public class VistaMiembros extends javax.swing.JFrame {
 
 
     private void Registrar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Registrar
-        //Sacamos los valores de los jtextfield y los jcombos
-        Entidad.EntidadProducto Eprod = new EntidadProducto();
-        Eprod.setClave(txtClave.getText());
-        Eprod.setNombre(txtNombre.getText());
-        double pre = Double.parseDouble(txtPrecio.getText());
-        Eprod.setPrecio(pre);
-        Eprod.setProveedor(cbProv.getSelectedIndex() + 1);
-        System.out.println(Eprod.getClave() + Eprod.getNombre() + Eprod.getPrecio() + "/n" + Eprod.getProveedor() + "");
+        Entidad.EntidadMiembros Emie = new EntidadMiembros();
+        Emie.setNombre(txtNombre.getText());
+        Emie.setaPaterno(txtAPaterno.getText());
+        Emie.setaMaterno(txtAMaterno.getText());
+        Emie.setTel1(Integer.parseInt(txtTel1.getText()));
+        Emie.setTel2(Integer.parseInt(txtTel2.getText()));
+        Emie.setCorreo(txtCorreo.getText());
 
-        // Si algun jtextfield no esta lleno mandamos un error
-        if (txtClave.getText().trim().length() == 0 || txtNombre.getText().trim().length() == 0 || txtPrecio.getText().trim().length() == 0) {
-            JOptionPane.showMessageDialog(this, "Falta LLenar Algunos Datos", "Error", JOptionPane.ERROR_MESSAGE);
+        if (txtNombre.getText().trim().length() == 0 || txtAPaterno.getText().trim().length() == 0 || txtAMaterno.getText().trim().length() == 0){
+//                || txtTel1.getText().trim().length() == 0 || txtTel2.getText().trim().length() == 0 || txtCorreo.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(this, "FALTA LLENAR ALGUNOS DATOS NECESARIOS", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
+
+        }  if (mie.insertCompleo(Emie)) {
+            JOptionPane.showMessageDialog(this, "MIEMBRO REGISTRADO", "EXITO", JOptionPane.INFORMATION_MESSAGE);
+            txtNombre.setText(null);
+            txtAPaterno.setText(null);
+            txtAMaterno.setText(null);
+            txtTel1.setText(null);
+            txtTel2.setText(null);
+            txtCorreo.setText(null);
+            this.cargarMiembrosTabla();
         }
+
 //        if (prod.insert(Eprod)) {
 //            JOptionPane.showMessageDialog(this, "Producto registrado con exito.", "Extio", JOptionPane.INFORMATION_MESSAGE);
 //            txtClave.setText("");
@@ -671,19 +675,20 @@ public class VistaMiembros extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(this, "Error al registrar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
 //        }
 
-
     }//GEN-LAST:event_Registrar
 
 
     private void toUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_toUpper
         JTextField ob = (JTextField) evt.getSource();
         ob.setText(ob.getText().toUpperCase());
+        ob.setText(ob.getText().trim());
     }//GEN-LAST:event_toUpper
 
-    private void txtNombretoUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombretoUpper
+    private void txtAPaternotoUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAPaternotoUpper
         JTextField ob = (JTextField) evt.getSource();
         ob.setText(ob.getText().toUpperCase());
-    }//GEN-LAST:event_txtNombretoUpper
+        ob.setText(ob.getText().trim());
+    }//GEN-LAST:event_txtAPaternotoUpper
 
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
         Control.ControlProveedor cProv = new ControlProveedor();
@@ -692,31 +697,28 @@ public class VistaMiembros extends javax.swing.JFrame {
             String Prov;
             while (rs.next()) {
                 Prov = rs.getString(1);
-                cbProv.addItem(Prov);
+//                cbProv.addItem(Prov);
             }
         } catch (SQLException ex) {
             Logger.getLogger(VistaMiembros.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jPanel2MouseClicked
 
-    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-        char c = evt.getKeyChar();
-
+    private void txtAPaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAPaternoKeyTyped
+  char c = evt.getKeyChar();
         if (Character.isDigit(c)) {
             getToolkit().beep();
-
             evt.consume();
-
         }
-    }//GEN-LAST:event_txtNombreKeyTyped
+    }//GEN-LAST:event_txtAPaternoKeyTyped
 
-    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+    private void txtTel2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTel2KeyTyped
         char c = evt.getKeyChar();
         if (Character.isLetter(c)) {
             getToolkit().beep();
             evt.consume();
         }
-    }//GEN-LAST:event_txtPrecioKeyTyped
+    }//GEN-LAST:event_txtTel2KeyTyped
 
     private void txtClave2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClave2KeyReleased
         JTextField ob = (JTextField) evt.getSource();
@@ -752,33 +754,47 @@ public class VistaMiembros extends javax.swing.JFrame {
         ob.setText(ob.getText().trim());
     }//GEN-LAST:event_txtPrecio2KeyReleased
 
-    private void txtPrecio1toUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio1toUpper
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecio1toUpper
+    private void txtAMaternotoUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAMaternotoUpper
+        JTextField ob = (JTextField) evt.getSource();
+        ob.setText(ob.getText().toUpperCase());
+        ob.setText(ob.getText().trim());
+    }//GEN-LAST:event_txtAMaternotoUpper
 
-    private void txtPrecio1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio1KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecio1KeyTyped
+    private void txtAMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAMaternoKeyTyped
+         char c = evt.getKeyChar();
+        if (Character.isDigit(c)) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtAMaternoKeyTyped
 
-    private void txtPrecio3toUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio3toUpper
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecio3toUpper
+    private void txtTel1toUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTel1toUpper
+        JTextField ob = (JTextField) evt.getSource();
+        ob.setText(ob.getText().toUpperCase());
+        ob.setText(ob.getText().trim());
+    }//GEN-LAST:event_txtTel1toUpper
 
-    private void txtPrecio3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio3KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecio3KeyTyped
+    private void txtCorreotoUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorreotoUpper
+        JTextField ob = (JTextField) evt.getSource();
+        ob.setText(ob.getText().toUpperCase());
+        ob.setText(ob.getText().trim());
+    }//GEN-LAST:event_txtCorreotoUpper
 
-    private void txtPrecio4toUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio4toUpper
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecio4toUpper
+    private void txtTel1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTel1KeyTyped
+  char c = evt.getKeyChar();
+        if (Character.isLetter(c)) {
+            getToolkit().beep();
+            evt.consume();
+        }        
+    }//GEN-LAST:event_txtTel1KeyTyped
 
-    private void txtPrecio4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio4KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecio4KeyTyped
-
-    private void txtPrecio3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecio3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecio3ActionPerformed
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+  char c = evt.getKeyChar();
+        if (Character.isDigit(c)) {
+            getToolkit().beep();
+            evt.consume();
+        }       
+    }//GEN-LAST:event_txtNombreKeyTyped
 
     //Funcion que carga todas la peliculas en la tabla y en los JCOMboBox
 //    private void cargarPeliculas(){
@@ -835,39 +851,7 @@ public class VistaMiembros extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VistaMiembros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -903,14 +887,14 @@ public class VistaMiembros extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable table;
-    private javax.swing.JTextField txtClave;
+    private javax.swing.JTextField txtAMaterno;
+    private javax.swing.JTextField txtAPaterno;
     private javax.swing.JTextField txtClave2;
+    private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNombre2;
-    private javax.swing.JTextField txtPrecio;
-    private javax.swing.JTextField txtPrecio1;
     private javax.swing.JTextField txtPrecio2;
-    private javax.swing.JTextField txtPrecio3;
-    private javax.swing.JTextField txtPrecio4;
+    private javax.swing.JTextField txtTel1;
+    private javax.swing.JTextField txtTel2;
     // End of variables declaration//GEN-END:variables
 }

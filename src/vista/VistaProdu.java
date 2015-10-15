@@ -597,14 +597,12 @@ public class VistaProdu extends javax.swing.JFrame {
 
 
     private void Registrar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Registrar
-        //Sacamos los valores de los jtextfield y los jcombos
         Entidad.EntidadProducto Eprod = new EntidadProducto();
         Eprod.setClave(txtClave.getText());
         Eprod.setNombre(txtNombre.getText());
         double pre = Double.parseDouble(txtPrecio.getText());
         Eprod.setPrecio(pre);
         Eprod.setProveedor(cbProv.getSelectedIndex() + 1);
-        // Si algun jtextfield no esta lleno mandamos un error
         if (txtClave.getText().trim().length() == 0 || txtNombre.getText().trim().length() == 0 || txtPrecio.getText().trim().length() == 0) {
             JOptionPane.showMessageDialog(this, "Falta LLenar Algunos Datos", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -627,11 +625,13 @@ public class VistaProdu extends javax.swing.JFrame {
     private void toUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_toUpper
         JTextField ob = (JTextField) evt.getSource();
         ob.setText(ob.getText().toUpperCase());
+        ob.setText(ob.getText().trim());
     }//GEN-LAST:event_toUpper
 
     private void txtNombretoUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombretoUpper
         JTextField ob = (JTextField) evt.getSource();
         ob.setText(ob.getText().toUpperCase());
+        ob.setText(ob.getText().trim());
     }//GEN-LAST:event_txtNombretoUpper
 
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
@@ -650,12 +650,9 @@ public class VistaProdu extends javax.swing.JFrame {
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
         char c = evt.getKeyChar();
-
         if (Character.isDigit(c)) {
             getToolkit().beep();
-
             evt.consume();
-
         }
     }//GEN-LAST:event_txtNombreKeyTyped
 

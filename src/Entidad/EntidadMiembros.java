@@ -10,10 +10,12 @@ package Entidad;
  * @author probook
  */
 public class EntidadMiembros {
+
     private String nombre;
     private String aPaterno;
     private String aMaterno;
     private String correo;
+    private int idMiembro;
     private int tel1;
     private int tel2;
 
@@ -28,8 +30,6 @@ public class EntidadMiembros {
 
     public EntidadMiembros() {
     }
-
-    
 
     /**
      * @return the nombre
@@ -114,6 +114,19 @@ public class EntidadMiembros {
     public void setTel2(int tel2) {
         this.tel2 = tel2;
     }
-    
-    
+
+    /**
+     * @return the idMiembro
+     */
+    public int getIdMiembro() {
+        return idMiembro;
+    }
+
+    /**
+     * @param idMiembro the idMiembro to set
+     */
+    public void setIdMiembro(int idMiembro) {
+        this.idMiembro = idMiembro;
+    }
+
 }
