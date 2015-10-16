@@ -104,7 +104,7 @@ public class ControlMiembros {
         }
     }
 
-    public boolean insertCompleo(Entidad.EntidadMiembros mie) {
+    public void insertCompleo(Entidad.EntidadMiembros mie) {
         try {
             String query = "INSERT INTO `Miembros` (`nombre`, `apaterno`, `amaterno`, `correo`) VALUES ( ?, ?, ?, ?);";
             ps = (PreparedStatement) conexion.getConexionMYSQL().prepareStatement(query);
@@ -113,14 +113,14 @@ public class ControlMiembros {
             ps.setString(3, mie.getaMaterno());
             ps.setString(4, mie.getCorreo());
             ps.executeUpdate();
-            return true;
+            
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+           
         }
     }
 
-    public boolean insertAMaterno(Entidad.EntidadMiembros mie) {
+    public void insertAMaterno(Entidad.EntidadMiembros mie) {
         try {
             String query = "INSERT INTO `Miembros` (`nombre`, `apaterno`, `correo`) VALUES ( ?, ?, ?);";
             ps = (PreparedStatement) conexion.getConexionMYSQL().prepareStatement(query);
@@ -128,14 +128,14 @@ public class ControlMiembros {
             ps.setString(2, mie.getaPaterno());
             ps.setString(3, mie.getCorreo());
             ps.executeUpdate();
-            return true;
+            
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            
         }
     }
 
-    public boolean insertCorreo(Entidad.EntidadMiembros mie) {
+    public void insertCorreo(Entidad.EntidadMiembros mie) {
         try {
             String query = "INSERT INTO `Miembros` (`nombre`, `apaterno`, `amaterno`) VALUES ( ?, ?, ?);";
             ps = (PreparedStatement) conexion.getConexionMYSQL().prepareStatement(query);
@@ -143,24 +143,24 @@ public class ControlMiembros {
             ps.setString(2, mie.getaPaterno());
             ps.setString(2, mie.getaMaterno());
             ps.executeUpdate();
-            return true;
+            
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+           
         }
     }
 
-    public boolean insertCorreoAmaterno(Entidad.EntidadMiembros mie) {
+    public void insertCorreoAmaterno(Entidad.EntidadMiembros mie) {
         try {
             String query = "INSERT INTO `Miembros` (`nombre`, `apaterno`) VALUES ( ?, ?);";
             ps = (PreparedStatement) conexion.getConexionMYSQL().prepareStatement(query);
             ps.setString(1, mie.getNombre());
             ps.setString(2, mie.getaPaterno());
             ps.executeUpdate();
-            return true;
+            
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            
         }
     }
 

@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ViewEdit;
+package vista;
 
-import vista.*;
 import Control.ControlProducto;
 import Control.ControlProveedor;
 import Entidad.EntidadMiembros;
@@ -227,11 +226,11 @@ public class VistaMiembros extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel1.setText("NOMBRE:");
+        jLabel1.setText("NOMBRE:*");
 
         jLabel2.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel2.setText("APELLIDO PATERNO:");
+        jLabel2.setText("APELLIDO PATERNO:*");
 
         jLabel3.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 255));
@@ -640,28 +639,39 @@ public class VistaMiembros extends javax.swing.JFrame {
 
     private void Registrar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Registrar
         Entidad.EntidadMiembros Emie = new EntidadMiembros();
-        Emie.setNombre(txtNombre.getText());
-        Emie.setaPaterno(txtAPaterno.getText());
-        Emie.setaMaterno(txtAMaterno.getText());
-        Emie.setTel1(Integer.parseInt(txtTel1.getText()));
-        Emie.setTel2(Integer.parseInt(txtTel2.getText()));
-        Emie.setCorreo(txtCorreo.getText());
-
-        if (txtNombre.getText().trim().length() == 0 || txtAPaterno.getText().trim().length() == 0 || txtAMaterno.getText().trim().length() == 0){
-//                || txtTel1.getText().trim().length() == 0 || txtTel2.getText().trim().length() == 0 || txtCorreo.getText().trim().length() == 0) {
+        while (txtNombre.getText().trim().length() == 0 || txtAPaterno.getText().trim().length() == 0) {
             JOptionPane.showMessageDialog(this, "FALTA LLENAR ALGUNOS DATOS NECESARIOS", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
-
-        }  if (mie.insertCompleo(Emie)) {
-            JOptionPane.showMessageDialog(this, "MIEMBRO REGISTRADO", "EXITO", JOptionPane.INFORMATION_MESSAGE);
-            txtNombre.setText(null);
-            txtAPaterno.setText(null);
-            txtAMaterno.setText(null);
-            txtTel1.setText(null);
-            txtTel2.setText(null);
-            txtCorreo.setText(null);
-            this.cargarMiembrosTabla();
         }
+        if (txtAMaterno.getText().trim().length() == 0 || txtTel1.getText().length() == 0 || txtTel2.getText().length() == 0 || txtCorreo.getText().trim().length() == 0) {
+            Emie.setNombre(txtNombre.getText());
+            Emie.setaPaterno(txtAPaterno.getText());
+           mie.insertCorreoAmaterno(Emie);
+        }
+        if (rootPaneCheckingEnabled) {
+
+        } else {
+
+            Emie.setNombre(txtNombre.getText());
+            Emie.setaPaterno(txtAPaterno.getText());
+            Emie.setaMaterno(txtAMaterno.getText());
+            int tel1 = Integer.parseInt(txtTel1.getText());
+            Emie.setTel1(tel1);
+            int tel2 = Integer.parseInt(txtTel2.getText());
+            Emie.setTel2(tel2);
+            Emie.setCorreo(txtCorreo.getText());
+        }
+//        }  if (mie.insertCompleo(Emie)) {
+//            
+//            JOptionPane.showMessageDialog(this, "MIEMBRO REGISTRADO", "EXITO", JOptionPane.INFORMATION_MESSAGE);
+//            txtNombre.setText(null);
+//            txtAPaterno.setText(null);
+//            txtAMaterno.setText(null);
+//            txtTel1.setText(null);
+//            txtTel2.setText(null);
+//            txtCorreo.setText(null);
+//            this.cargarMiembrosTabla();
+//        }
 
 //        if (prod.insert(Eprod)) {
 //            JOptionPane.showMessageDialog(this, "Producto registrado con exito.", "Extio", JOptionPane.INFORMATION_MESSAGE);
@@ -705,7 +715,7 @@ public class VistaMiembros extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel2MouseClicked
 
     private void txtAPaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAPaternoKeyTyped
-  char c = evt.getKeyChar();
+        char c = evt.getKeyChar();
         if (Character.isDigit(c)) {
             getToolkit().beep();
             evt.consume();
@@ -761,7 +771,7 @@ public class VistaMiembros extends javax.swing.JFrame {
     }//GEN-LAST:event_txtAMaternotoUpper
 
     private void txtAMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAMaternoKeyTyped
-         char c = evt.getKeyChar();
+        char c = evt.getKeyChar();
         if (Character.isDigit(c)) {
             getToolkit().beep();
             evt.consume();
@@ -781,19 +791,19 @@ public class VistaMiembros extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCorreotoUpper
 
     private void txtTel1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTel1KeyTyped
-  char c = evt.getKeyChar();
+        char c = evt.getKeyChar();
         if (Character.isLetter(c)) {
             getToolkit().beep();
             evt.consume();
-        }        
+        }
     }//GEN-LAST:event_txtTel1KeyTyped
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-  char c = evt.getKeyChar();
+        char c = evt.getKeyChar();
         if (Character.isDigit(c)) {
             getToolkit().beep();
             evt.consume();
-        }       
+        }
     }//GEN-LAST:event_txtNombreKeyTyped
 
     //Funcion que carga todas la peliculas en la tabla y en los JCOMboBox
@@ -851,7 +861,7 @@ public class VistaMiembros extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VistaMiembros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
