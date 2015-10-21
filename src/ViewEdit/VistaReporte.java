@@ -7,8 +7,6 @@ package vista;
 
 import Control.ControlProducto;
 import Control.ControlProveedor;
-import Control.ControlTel;
-import Entidad.EntidadMiembros;
 import Entidad.EntidadProducto;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,25 +22,26 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author netosolis.com
  */
-public class VistaMiembros extends javax.swing.JFrame {
+public class VistaReporte extends javax.swing.JFrame {
 
     private UIManager.LookAndFeelInfo apariencias[];
     private DefaultTableModel modelo = new DefaultTableModel();
-    private Control.ControlMiembros mie;
+    private Control.ControlProducto prod;
 
     /**
      * Creates new form Main
      */
-    public void cargaMie() {
+    public void cargaprod() {
         limpiarTabla();
         try {
 
-            ResultSet rs = mie.selectMiembros();
+            ResultSet rs = prod.selectProducto();
             while (rs.next()) {
-                Object row[] = new Object[6];
-                for (int i = 0; i < 6; i++) {
+                Object row[] = new Object[4];
+                for (int i = 0; i < 4; i++) {
                     row[i] = rs.getObject(i + 1);
                 }
+
                 modelo.addRow(row);
 
             }
@@ -52,17 +51,14 @@ public class VistaMiembros extends javax.swing.JFrame {
         }
     }
 
-    private void cargarMiembrosTabla() {
+    private void cargarProducto() {
         limpiarTabla();
         try {
 
-            mie = new Control.ControlMiembros();
-            this.table.setModel(modelo);
-
-            ResultSet rs = mie.selectMiembros();
+            ResultSet rs = prod.selectProducto();
             while (rs.next()) {
-                Object row[] = new Object[6];
-                for (int i = 0; i < 6; i++) {
+                Object row[] = new Object[4];
+                for (int i = 0; i < 4; i++) {
                     row[i] = rs.getObject(i + 1); //El resulset los indices empiezan en 1, mi for lo empieso en 0 por eso le sumo i+1
                 }
 
@@ -75,21 +71,20 @@ public class VistaMiembros extends javax.swing.JFrame {
         }
     }
 
-    public VistaMiembros() {
-
+    public VistaProdu() {
         initComponents();
         Control.ControlProveedor cProv = new ControlProveedor();
         Control.ControlProducto prodnom = new ControlProducto();
-
+///LLEnado de table columna sin repetir
         try {
-            table.setModel(modelo);
-            modelo.addColumn("NOMBRE");
-            modelo.addColumn("APELLIDO PATERNO");
-            modelo.addColumn("APELLIDO MATERNO");
-            modelo.addColumn("TELEFONO 1");
-            modelo.addColumn("TELEFONO 2");
-            modelo.addColumn("CORREO");
+            int noCol;
+            prod = new Control.ControlProducto();
+            noCol = prod.selectProductoRSM().getColumnCount();
+            this.table.setModel(modelo);
+            for (int y = 1; y <= noCol; y++) {
+                modelo.addColumn(prod.selectProductoRSM().getColumnLabel(y));
 
+            }
             SwingUtilities.updateComponentTreeUI(this);
 
             ResultSet rs = cProv.selectProveedor();
@@ -104,25 +99,17 @@ public class VistaMiembros extends javax.swing.JFrame {
                 while (rs.next()) {
                     Prov = rs.getString(1);
 
+                    cbProv.addItem(Prov);
+
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(VistaMiembros.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VistaProdu.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            this.cargarMiembrosTabla();
+            this.cargarProducto();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void limpriardatos() {
-        txtNombre.setText(null);
-        txtAMaterno.setText(null);
-        txtAPaterno.setText(null);
-        txtTel1.setText(null);
-        txtTel2.setText(null);
-        txtCorreo.setText(null);
-
     }
 
     /**
@@ -145,15 +132,11 @@ public class VistaMiembros extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
-        txtTel2 = new javax.swing.JTextField();
+        txtClave = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
+        cbProv = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
-        txtAPaterno = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        txtAMaterno = new javax.swing.JTextField();
-        txtTel1 = new javax.swing.JTextField();
-        txtCorreo = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         txtNombre2 = new javax.swing.JTextField();
@@ -212,7 +195,7 @@ public class VistaMiembros extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(225, 549, Short.MAX_VALUE)
+                .addGap(225, 427, Short.MAX_VALUE)
                 .addComponent(jButton4)
                 .addGap(113, 113, 113))
             .addComponent(jScrollPane1)
@@ -224,10 +207,10 @@ public class VistaMiembros extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Miembros", jPanel1);
+        jTabbedPane1.addTab("Productos", jPanel1);
 
         jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -237,103 +220,80 @@ public class VistaMiembros extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel1.setText("NOMBRE:*");
+        jLabel1.setText("Clave");
 
         jLabel2.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel2.setText("APELLIDO PATERNO:*");
+        jLabel2.setText("Nombre");
 
         jLabel3.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel3.setText("APELLIDO MATERNO:");
+        jLabel3.setText("Precio");
 
         jLabel4.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel4.setText("TELEFONO 1:");
+        jLabel4.setText("Proveedor");
 
-        txtNombre.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        txtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtNombre.setToolTipText("NOMBRE DEL NUEVO MIEMBRO*OBLIGATORIO");
-        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtClave.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        txtClave.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtClave.setToolTipText("AGREGAR CLAVE NUEVA");
+        txtClave.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 toUpper(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNombreKeyTyped(evt);
             }
         });
 
-        txtTel2.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        txtTel2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtTel2.setToolTipText("TELEFONO DEL MIEMBRO ");
-        txtTel2.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtPrecio.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        txtPrecio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPrecio.setText("0.0");
+        txtPrecio.setToolTipText("PRECIO UNITARIO DE PRODUCTO");
+        txtPrecio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtPrecioMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtPrecioMouseEntered(evt);
+            }
+        });
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 toUpper(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtTel2KeyTyped(evt);
+                txtPrecioKeyTyped(evt);
+            }
+        });
+
+        cbProv.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        cbProv.setToolTipText("PROVEEDOR EXIXTENTES");
+        cbProv.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbProvItemStateChanged(evt);
+            }
+        });
+        cbProv.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbProvActionPerformed(evt);
             }
         });
 
         jButton1.setFont(new java.awt.Font("Consolas", 0, 24)); // NOI18N
-        jButton1.setText("REGISTRAR MIEMBRO");
+        jButton1.setText("Registrar Producto");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Registrar(evt);
             }
         });
 
-        txtAPaterno.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        txtAPaterno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtAPaterno.setToolTipText("APELLIDO PATERNO DEL MIEMBRO*OBLIGSTORIO");
-        txtAPaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtNombre.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        txtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtNombre.setToolTipText("NOMBRE DE PRODUCTO NUEVO");
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtAPaternotoUpper(evt);
+                txtNombretoUpper(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtAPaternoKeyTyped(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel5.setText("TELEFONO 2:");
-
-        jLabel6.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel6.setText("CORREO:");
-
-        txtAMaterno.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        txtAMaterno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtAMaterno.setToolTipText("APELLIDO MATERNO DEL MIEMBRO");
-        txtAMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtAMaternotoUpper(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtAMaternoKeyTyped(evt);
-            }
-        });
-
-        txtTel1.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        txtTel1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtTel1.setToolTipText("TELEFONO DEL MIEMBRO");
-        txtTel1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        txtTel1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtTel1toUpper(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtTel1KeyTyped(evt);
-            }
-        });
-
-        txtCorreo.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        txtCorreo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtCorreo.setToolTipText("CORREO DEL MIEMBRO");
-        txtCorreo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtCorreotoUpper(evt);
+                txtNombreKeyTyped(evt);
             }
         });
 
@@ -344,70 +304,52 @@ public class VistaMiembros extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(45, 45, 45)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtNombre)
-                                            .addComponent(txtAPaterno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addGap(44, 44, 44)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtAMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtTel1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtTel2, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)))
+                        .addGap(125, 125, 125)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(173, 173, 173)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(180, Short.MAX_VALUE))
+                        .addGap(73, 73, 73)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(45, 45, 45)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtClave)
+                            .addComponent(txtPrecio)
+                            .addComponent(cbProv, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(76, 76, 76)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtAPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtAMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtTel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(txtTel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(42, 42, 42)
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel3)
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cbProv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(44, 44, 44)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Agregar nuevo miembro", jPanel2);
+        jTabbedPane1.addTab("Agregar nuevo producto", jPanel2);
 
         jLabel8.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 255));
@@ -494,7 +436,7 @@ public class VistaMiembros extends javax.swing.JFrame {
                                     .addComponent(txtClave2)
                                     .addComponent(txtNombre2, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
                                     .addComponent(txtPrecio2, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE))))))
-                .addContainerGap(215, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -547,7 +489,7 @@ public class VistaMiembros extends javax.swing.JFrame {
                 .addComponent(jLabel15)
                 .addGap(45, 45, 45)
                 .addComponent(cbPeliculas1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -562,7 +504,7 @@ public class VistaMiembros extends javax.swing.JFrame {
                     .addComponent(jLabel15))
                 .addGap(64, 64, 64)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(252, Short.MAX_VALUE))
+                .addContainerGap(246, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Eliminar Producto", jPanel4);
@@ -608,13 +550,13 @@ public class VistaMiembros extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Falta LLenar Algunos Datos", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-//        if (mie.update(Eprod)) {
-//            JOptionPane.showMessageDialog(this, "Producto registrado con exito.", "Extio", JOptionPane.INFORMATION_MESSAGE);
-//
-//            this.cargarProducto();
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Error al registrar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
-//        }
+        if (prod.update(Eprod)) {
+            JOptionPane.showMessageDialog(this, "Producto registrado con exito.", "Extio", JOptionPane.INFORMATION_MESSAGE);
+
+            this.cargarProducto();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al registrar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
     }//GEN-LAST:event_ActualizarPelicula
 
@@ -649,149 +591,33 @@ public class VistaMiembros extends javax.swing.JFrame {
     }//GEN-LAST:event_CargarDatosPelicula
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        this.cargaMie();
+        this.cargaprod();
 
     }//GEN-LAST:event_jButton4ActionPerformed
 
 
     private void Registrar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Registrar
-        Entidad.EntidadMiembros Emie = new EntidadMiembros();
-        Control.ControlTel cTel = new ControlTel();
-
-        while (txtNombre.getText().trim().length() == 0 || txtAPaterno.getText().trim().length() == 0) {
-            JOptionPane.showMessageDialog(this, "FALTA LLENAR ALGUNOS DATOS NECESARIOS", "ERROR", JOptionPane.ERROR_MESSAGE);
+        Entidad.EntidadProducto Eprod = new EntidadProducto();
+        Eprod.setClave(txtClave.getText());
+        Eprod.setNombre(txtNombre.getText());
+        double pre = Double.parseDouble(txtPrecio.getText());
+        Eprod.setPrecio(pre);
+        Eprod.setProveedor(cbProv.getSelectedIndex() + 1);
+        if (txtClave.getText().trim().length() == 0 || txtNombre.getText().trim().length() == 0 || txtPrecio.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Falta LLenar Algunos Datos", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-        }//falta aMaterno, Tel1, Tel2, Correo
-        if (txtAMaterno.getText().trim().length() == 0 || txtTel1.getText().length() == 0 || txtTel2.getText().length() == 0 || txtCorreo.getText().trim().length() == 0) {
-            Emie.setNombre(txtNombre.getText());
-            Emie.setaPaterno(txtAPaterno.getText());
-            mie.insertCorreoAmaterno(Emie);
-            this.limpriardatos();
-            this.cargarMiembrosTabla();
-        }//falta correo, Tel1, Tel2
-        if (txtTel1.getText().length() == 0 || txtTel2.getText().length() == 0 || txtCorreo.getText().trim().length() == 0) {
-            Emie.setNombre(txtNombre.getText());
-            Emie.setaPaterno(txtAPaterno.getText());
-            Emie.setaMaterno(txtAMaterno.getText());
-            mie.insertCorreo(Emie);
-            JOptionPane.showMessageDialog(this, "Miembro registrado con exito.", "Extio", JOptionPane.INFORMATION_MESSAGE);
-            this.limpriardatos();
-            this.cargarMiembrosTabla();
         }
-        //falta aMaterno tel1, tel 2
-        if (txtAMaterno.getText().trim().length() == 0 || txtTel1.getText().length() == 0 || txtTel2.getText().length() == 0) {
-            Emie.setNombre(txtNombre.getText());
-            Emie.setaPaterno(txtAPaterno.getText());
-            Emie.setCorreo(txtCorreo.getText());
-            mie.insertAMaterno(Emie);
-            JOptionPane.showMessageDialog(this, "Miembro registrado con exito.", "Extio", JOptionPane.INFORMATION_MESSAGE);
-            this.limpriardatos();
-            this.cargarMiembrosTabla();
-        }
-        //falta tel1, tel2
-        if (txtTel1.getText().length() == 0 || txtTel2.getText().length() == 0) {
-            Emie.setNombre(txtNombre.getText());
-            Emie.setaPaterno(txtAPaterno.getText());
-            Emie.setaMaterno(txtAMaterno.getText());
-            Emie.setCorreo(txtCorreo.getText());
-            mie.insertCompleo(Emie);
-            JOptionPane.showMessageDialog(this, "Miembro registrado con exito.", "Extio", JOptionPane.INFORMATION_MESSAGE);
-            this.limpriardatos();
-            this.cargarMiembrosTabla();
-        }
-        //falta correo  amaterno
-        if (txtCorreo.getText().trim().length() == 0 || txtAMaterno.getText().trim().length() == 0) {
-            Emie.setNombre(txtNombre.getText());
-            Emie.setaPaterno(txtAPaterno.getText());
-            int tel1 = Integer.parseInt(txtTel1.getText());
-            Emie.setTel1(tel1);
-            int tel2 = Integer.parseInt(txtTel2.getText());
-            Emie.setTel2(tel2);
-            mie.insertCompleo(Emie);
-            cTel.insertTelCompleto(Emie);
-            JOptionPane.showMessageDialog(this, "Miembro registrado con exito.", "Extio", JOptionPane.INFORMATION_MESSAGE);
-            this.limpriardatos();
-            this.cargarMiembrosTabla();
-        }
-        //falta aMaterno
-        if (txtAMaterno.getText().trim().length() == 0) {
-            Emie.setNombre(txtNombre.getText());
-            Emie.setaPaterno(txtAPaterno.getText());
-            Emie.setCorreo(txtCorreo.getText());
-            int tel1 = Integer.parseInt(txtTel1.getText());
-            Emie.setTel1(tel1);
-            int tel2 = Integer.parseInt(txtTel2.getText());
-            Emie.setTel2(tel2);
-            mie.insertAMaterno(Emie);
-            cTel.insertTelCompleto(Emie);
-            JOptionPane.showMessageDialog(this, "Miembro registrado con exito.", "Extio", JOptionPane.INFORMATION_MESSAGE);
-            this.limpriardatos();
-            this.cargarMiembrosTabla();
-        }
-        //falta correo aMaterno tel2
-        if (txtAMaterno.getText().trim().length() == 0|| txtTel2.getText().length() == 0 ) {
-            Emie.setNombre(txtNombre.getText());
-            Emie.setaPaterno(txtAPaterno.getText());
-            Emie.setCorreo(txtCorreo.getText());
-            int tel1 = Integer.parseInt(txtTel1.getText());
-            Emie.setTel1(tel1);
-            mie.insertAMaterno(Emie);
-            cTel.insertTel1(Emie);
-            JOptionPane.showMessageDialog(this, "Miembro registrado con exito.", "Extio", JOptionPane.INFORMATION_MESSAGE);
-            this.limpriardatos();
-            this.cargarMiembrosTabla();
+        if (prod.insert(Eprod)) {
+            JOptionPane.showMessageDialog(this, "Producto registrado con exito.", "Extio", JOptionPane.INFORMATION_MESSAGE);
+            txtClave.setText("");
+            txtNombre.setText("");
+            txtPrecio.setText("0.0");
+
+            this.cargarProducto();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al registrar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        //completo insert
-        if (txtAMaterno.getText().trim().length() > 0 || txtTel1.getText().length() > 0 || txtTel2.getText().length() > 0 || txtCorreo.getText().trim().length() > 0) {
-            Emie.setNombre(txtNombre.getText());
-            Emie.setaPaterno(txtAPaterno.getText());
-            Emie.setaMaterno(txtAMaterno.getText());
-            Emie.setCorreo(txtCorreo.getText());
-            mie.insertCompleo(Emie);
-            int tel1 = Integer.parseInt(txtTel1.getText());
-            Emie.setTel1(tel1);
-            int tel2 = Integer.parseInt(txtTel2.getText());
-            Emie.setTel2(tel2);
-            cTel.insertTelCompleto(Emie);
-            JOptionPane.showMessageDialog(this, "Miembro registrado con exito.", "Extio", JOptionPane.INFORMATION_MESSAGE);
-            this.limpriardatos();
-            this.cargarMiembrosTabla();
-        }
-//        } else {
-//
-//            Emie.setNombre(txtNombre.getText());
-//            Emie.setaPaterno(txtAPaterno.getText());
-//            Emie.setaMaterno(txtAMaterno.getText());
-//            int tel1 = Integer.parseInt(txtTel1.getText());
-//            Emie.setTel1(tel1);
-//            int tel2 = Integer.parseInt(txtTel2.getText());
-//            Emie.setTel2(tel2);
-//            Emie.setCorreo(txtCorreo.getText());
-//        }
-//        }  if (mie.insertCompleo(Emie)) {
-//            
-//            JOptionPane.showMessageDialog(this, "MIEMBRO REGISTRADO", "EXITO", JOptionPane.INFORMATION_MESSAGE);
-//            txtNombre.setText(null);
-//            txtAPaterno.setText(null);
-//            txtAMaterno.setText(null);
-//            txtTel1.setText(null);
-//            txtTel2.setText(null);
-//            txtCorreo.setText(null);
-//            this.cargarMiembrosTabla();
-//        }
-
-//        if (prod.insert(Eprod)) {
-//            JOptionPane.showMessageDialog(this, "Producto registrado con exito.", "Extio", JOptionPane.INFORMATION_MESSAGE);
-//            txtClave.setText("");
-//            txtNombre.setText("");
-//            txtPrecio.setText("0.0");
-//            cbProductos.removeAllItems();
-//            cbPeliculas1.removeAllItems();
-//            this.cargarProducto();
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Error al registrar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
-//        }
 
     }//GEN-LAST:event_Registrar
 
@@ -802,11 +628,11 @@ public class VistaMiembros extends javax.swing.JFrame {
         ob.setText(ob.getText().trim());
     }//GEN-LAST:event_toUpper
 
-    private void txtAPaternotoUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAPaternotoUpper
+    private void txtNombretoUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombretoUpper
         JTextField ob = (JTextField) evt.getSource();
         ob.setText(ob.getText().toUpperCase());
         ob.setText(ob.getText().trim());
-    }//GEN-LAST:event_txtAPaternotoUpper
+    }//GEN-LAST:event_txtNombretoUpper
 
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
         Control.ControlProveedor cProv = new ControlProveedor();
@@ -815,28 +641,36 @@ public class VistaMiembros extends javax.swing.JFrame {
             String Prov;
             while (rs.next()) {
                 Prov = rs.getString(1);
-//                cbProv.addItem(Prov);
+                cbProv.addItem(Prov);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(VistaMiembros.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VistaProdu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jPanel2MouseClicked
 
-    private void txtAPaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAPaternoKeyTyped
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
         char c = evt.getKeyChar();
         if (Character.isDigit(c)) {
             getToolkit().beep();
             evt.consume();
         }
-    }//GEN-LAST:event_txtAPaternoKeyTyped
+    }//GEN-LAST:event_txtNombreKeyTyped
 
-    private void txtTel2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTel2KeyTyped
+    private void cbProvItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbProvItemStateChanged
+
+    }//GEN-LAST:event_cbProvItemStateChanged
+
+    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
         char c = evt.getKeyChar();
         if (Character.isLetter(c)) {
             getToolkit().beep();
             evt.consume();
         }
-    }//GEN-LAST:event_txtTel2KeyTyped
+    }//GEN-LAST:event_txtPrecioKeyTyped
+
+    private void cbProvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbProvActionPerformed
+
+    }//GEN-LAST:event_cbProvActionPerformed
 
     private void txtClave2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClave2KeyReleased
         JTextField ob = (JTextField) evt.getSource();
@@ -872,72 +706,14 @@ public class VistaMiembros extends javax.swing.JFrame {
         ob.setText(ob.getText().trim());
     }//GEN-LAST:event_txtPrecio2KeyReleased
 
-    private void txtAMaternotoUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAMaternotoUpper
-        JTextField ob = (JTextField) evt.getSource();
-        ob.setText(ob.getText().toUpperCase());
-        ob.setText(ob.getText().trim());
-    }//GEN-LAST:event_txtAMaternotoUpper
+    private void txtPrecioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPrecioMouseClicked
+        txtPrecio.setText(null);
+    }//GEN-LAST:event_txtPrecioMouseClicked
 
-    private void txtAMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAMaternoKeyTyped
-        char c = evt.getKeyChar();
-        if (Character.isDigit(c)) {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtAMaternoKeyTyped
-
-    private void txtTel1toUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTel1toUpper
-        JTextField ob = (JTextField) evt.getSource();
-        ob.setText(ob.getText().toUpperCase());
-        ob.setText(ob.getText().trim());
-    }//GEN-LAST:event_txtTel1toUpper
-
-    private void txtCorreotoUpper(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorreotoUpper
-        JTextField ob = (JTextField) evt.getSource();
-        ob.setText(ob.getText().toUpperCase());
-        ob.setText(ob.getText().trim());
-    }//GEN-LAST:event_txtCorreotoUpper
-
-    private void txtTel1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTel1KeyTyped
-        char c = evt.getKeyChar();
-        if (Character.isLetter(c)) {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtTel1KeyTyped
-
-    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-        char c = evt.getKeyChar();
-        if (Character.isDigit(c)) {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtNombreKeyTyped
-
-    //Funcion que carga todas la peliculas en la tabla y en los JCOMboBox
-//    private void cargarPeliculas(){
-//        limpiarTabla();
-//        try{
-//            ResultSet rs = crud.selectXtodas();
-//            while(rs.next()){
-//                Object row [] = new Object[6];
-//                for (int i = 0; i < 6; i++) {
-//                    row[i] = rs.getObject(i+1); //El resulset los indices empiezan en 1, mi for lo empieso en 0 por eso le sumo i+1
-//                }
-//                //Agregamos cada registro al modelo de la tabla
-//                modelo.addRow(row);
-//                cbPeliculas.addItem(new Pelicula(Integer.parseInt(row[0].toString()),row[1].toString(),row[2].toString(),
-//                        row[4].toString(),row[5].toString(),Integer.parseInt(row[3].toString())));
-//                cbPeliculas1.addItem(new Pelicula(Integer.parseInt(row[0].toString()),row[1].toString(),row[2].toString(),
-//                        row[4].toString(),row[5].toString(),Integer.parseInt(row[3].toString())));
-//            }
-//        }catch(Exception e){
-//            e.printStackTrace();
-//             JOptionPane.showMessageDialog(this, "Error al cargar los datos de la Base de Datos.", "Error", JOptionPane.ERROR_MESSAGE);
-//        }
-//    }
-    //Funcion para limpiar la tabla
-    private void limpiarTabla() {
+    private void txtPrecioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPrecioMouseEntered
+        txtPrecio.setText(null);
+    }//GEN-LAST:event_txtPrecioMouseEntered
+        private void limpiarTabla() {
         for (int i = 0; i < modelo.getRowCount(); i++) {
             modelo.removeRow(i);
             i -= 1;
@@ -961,19 +737,27 @@ public class VistaMiembros extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaMiembros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaProdu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaMiembros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaProdu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaMiembros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaProdu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaMiembros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaProdu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VistaMiembros().setVisible(true);
+                new VistaProdu().setVisible(true);
             }
         });
     }
@@ -981,6 +765,7 @@ public class VistaMiembros extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbPeliculas1;
     private javax.swing.JComboBox cbProductos;
+    private javax.swing.JComboBox cbProv;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -993,8 +778,6 @@ public class VistaMiembros extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -1005,14 +788,11 @@ public class VistaMiembros extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable table;
-    private javax.swing.JTextField txtAMaterno;
-    private javax.swing.JTextField txtAPaterno;
+    private javax.swing.JTextField txtClave;
     private javax.swing.JTextField txtClave2;
-    private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNombre2;
+    private javax.swing.JTextField txtPrecio;
     private javax.swing.JTextField txtPrecio2;
-    private javax.swing.JTextField txtTel1;
-    private javax.swing.JTextField txtTel2;
     // End of variables declaration//GEN-END:variables
 }
